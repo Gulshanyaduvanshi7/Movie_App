@@ -9,7 +9,7 @@ export default class App extends React.Component{
     //Creating the state object 
     this.state = {
         movies : movies,
-        cartCount: 0
+        cartCount: 0,
     } 
   }
 
@@ -52,22 +52,26 @@ export default class App extends React.Component{
   }
 
   handleAddtocart = (movie)=> {
-  const {movies} = this.state;
+  var {movies,cartCount} = this.state;
   const movieId = movies.indexOf(movie);
 
   movies[movieId].isInCart = !movies[movieId].isInCart;
 
+  if(movies[movieId].isInCart)  cartCount++;
+  else  cartCount--;
+
   this.setState({
-      movies
+      movies,
+      cartCount
   })
   }
 
   render(){
-    const {movies} = this.state;
+    const {movies,cartCount} = this.state;
     return(
       <>
-      <Navbar />
-      <MovieList movies ={movies}
+      <Navbar cartCount={cartCount} />
+      <MovieList movies = {movies}
                  onIncStars = {this.handleAddStars}
                  onDecStars = {this.handleDecStars}
                  onClickFav = {this.handleToggleFav}
